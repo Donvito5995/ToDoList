@@ -1,7 +1,6 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from "react";
 import {FilterType} from "./App";
 
-
 type ToDoListPropsType = {
     title: string,
     tasks: Array<TasksType>
@@ -27,34 +26,32 @@ export function ToDoList(props: ToDoListPropsType) {
         setNewTask("")
     }
     const addNewTasksHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.charCode === 13) {
-            if (e.charCode === 13) {
-                addNewTasks()
-            }
-        }
+    if(e.key==="Enter" && e.ctrlKey === true){addNewTasks()}
     }
     const setAllFilterHandler = () => {props.changeFilter('all')}
     const setActiveFilterHandler = () => {props.changeFilter('active')}
     const setCompletedFilterHandler = () => {props.changeFilter('completed')}
 
+    const taskListItem = props.tasks.length ?  props.tasks.map(task => {
+            const taskRemove = () => {props.removeTask(task.id)}
+            return (
+                <li key={task.id}>
+                    <input type={"checkbox"} checked={task.isDone}/>
+                    <span>{task.title}</span>
+                    <button onClick={taskRemove}>X</button>
+                </li>
+            )
+        } ) : <span> Your task list is empty</span>
+
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input value={newTask} onChange={newTaskValue} onKeyPress={addNewTasksHandler}/>
+                <input value={newTask} onChange={newTaskValue} onKeyDown={addNewTasksHandler}/>
                 <button onClick={()=>{addNewTasks()}}>+</button>
             </div>
             <ul>
-                {props.tasks.map((task) => {
-                    const taskRemove = () => {props.removeTask(task.id)}
-                    return (
-                        <li key={task.id}>
-                            <input type={"checkbox"} checked={task.isDone}/>
-                            <span>{task.title}</span>
-                            <button onClick={taskRemove}>X</button>
-                        </li>
-                    )
-                })}
+                {taskListItem}
             </ul>
             <div>
                 <button onClick={setAllFilterHandler}>All</button>

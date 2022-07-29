@@ -7,7 +7,6 @@ export type FilterType = 'all' | 'active' | 'completed'
 
 function App() {
 
-
     let [tasks, setTasks] = useState([
         {id: v1(), title: "HTML&CSS", isDone: true},
         {id: v1(), title: "JS", isDone: true},
@@ -47,8 +46,6 @@ function App() {
         <div className='App'>
             <ToDoList title="What to learn?" tasks={tasksForToDoList} removeTask={RemoveTask}
                       changeFilter={changeFilter} addNewTask={addNewTask}/>
-
-
         </div>
 
     )
